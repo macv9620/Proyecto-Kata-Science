@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dosis:wght@700;800&family=Red+Hat+Display:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="./styles/app.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <title>WorldMovies</title>
+  </head>
+
+  <body>
+
+    <button type="button" id="home-button">
+      <span class="material-symbols-outlined">
+        home
+        </span>
+    </button>
+    <!--headerContainerLong (modificador) va a permitir cambiar la vista al detalle de la película al activar y desactivar en conjunto con otros formatos como el de activación e inactivación-->
+    <span id="header-arrow" class="header-arrow">  &lt;</span>
+
+    <header id="header" class="header-container">
+      <!--&lt; inserta una flecha que se usará para retroceder-->
+      <!--El modificador headerarrowwhite cambia el color para las diferentes vistas de la flecha de navegación-->
+      <!--Título vista inicial-->
+      <h1 id="header-page-title" class="header-title ">WorldMovies</h1>
+      <!--Título vista de categoría-->
+      <h1 id="header-category-title" class="header-title">Acción</h1>
+      <!--Formulario de búsqueda-->
+      <form id="searchForm" class="header-searchForm">
+        <input type="text" placeholder="Search Movie" />
+        <button type="button">🔍</button>
+      </form>
+    </header>
+
+    <!--Sección para previsualizar algunas películas tendencia-->
+    <section id="trendingPreview" class="trendingPreview-container">
+      <div class="trendingPreview-header">
+        <h2>Trending</h2>
+        <button class="trendingPreview-btn">More</button>
+      </div>
+      <article id="trendingPreview-movieList" class="trendingPreview-movieList">
+        <!-- ESTA PARTE SE INSERTARÁ CON JS
+        <div class="movie-container">
+          <img
+            src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg"
+            class="movie-img"
+            alt="Nombre de la película"
+          />
+        </div>
+
+        <div class="movie-container">
+          <img
+            src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg"
+            class="movie-img"
+            alt="Nombre de la película"
+          />
+        </div>
+
+        <div class="movie-container">
+          <img
+            src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg"
+            class="movie-img"
+            alt="Nombre de la película"
+          />
+        </div>
+        -->
+      </article>
+    </section>
+
+    <!--Sección para previsualizar los nombres de las categorías mas no las películas como tal-->
+    <section id="categoriesPreview" class="categoriesPreview-container ">
+      <h2 class="categoriesPreview-title">Categories</h2>
+      <!--Nombres de las categorías-->
+      
+
+      <article class="categoriesPreview-list">
+              <!--
+        <div class="category-container">
+          <h3 id="id28" class="category-title">Romance</h3>
+        </div>
+      -->
+
+      </article>
+    </section>
+
+    <!--Sección para visualizar un listado general de películas-->
+    <section id="genericList" class="genericList-container">
+      <!--
+      <div class="movie-container">
+        <img
+          src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg"
+          class="movie-img"
+          alt="Nombre de la película"
+        />
+      </div>
+
+      <div class="movie-container">
+        <img
+          src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg"
+          class="movie-img"
+          alt="Nombre de la película"
+        />
+      </div>
+
+      <div class="movie-container">
+        <img
+          src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg"
+          class="movie-img"
+          alt="Nombre de la película"
+        />
+      </div>
+      -->
+      
+
+    </section>
+
+    <!--Sección o vista para el detalle de la película-->
+    <section id="movieDetail" class="movieDetail-container">
+      <!--Título de la película-->
+      <h1 class="movieDetail-title">Deadpool</h1>
+      <!--Calificación-->
+      <span class="movieDetail-score">7.6</span>
+      <!--Descripción-->
+      <p class="movieDetail-description">
+        Wisecracking mercenary Deadpool battles the evil and powerful Cable and
+        other bad guys to save a boy's life.
+      </p>
+
+      <!--Categorías que pueden asociarse a la película-->
+      <article class="categories-list">
+        <!--
+        <div class="category-container">
+          <h3 id="id28" class="category-title">Romance</h3>
+        </div>
+
+        <div class="category-container">
+          <h3 id="id16" class="category-title">Drama</h3>
+        </div>
+
+        <div class="category-container">
+          <h3 id="id14" class="category-title">Acción</h3>
+        </div>
+
+        -->
+      </article>
+
+      <!--Películas relacionadas-->
+      <article class="relatedMovies-container">
+        <h2 class="relatedMovies-title">Similar Movies</h2>
+
+        <div class="relatedMovies-scrollContainer">
+          <!--
+          <div class="movie-container">
+            <img
+              src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg"
+              class="movie-img"
+              alt="Nombre de la película"
+            />
+          </div>
+
+          <div class="movie-container">
+            <img
+              src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg"
+              class="movie-img"
+              alt="Nombre de la película"
+            />
+          </div>
+
+          <div class="movie-container">
+            <img
+              src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg"
+              class="movie-img"
+              alt="Nombre de la película"
+            />
+          </div>
+
+          <div class="movie-container">
+            <img
+              src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg"
+              class="movie-img"
+              alt="Nombre de la película"
+            />
+          </div>
+
+          <div class="movie-container">
+            <img
+              src="https://image.tmdb.org/t/p/w300/adOzdWS35KAo21r9R4BuFCkLer6.jpg"
+              class="movie-img"
+              alt="Nombre de la película"
+            />
+          </div>
+          -->
+        </div>
+      </article>
+    </section>
+
+    <div class="get-more-container">
+    <button type="button" id="get-more-btn">
+      <span class="material-symbols-outlined">
+        expand_more
+        </span>
+    </button>
+  </div>
+
+    <footer class="footer">Made by macv9620</footer>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./src/api_key.js" ></script>
+    <script src="./src/main.js" ></script>
+    <script src="./src/nodes.js"></script>
+    <script src="./src/navigation.js"></script>
+
+  </body>
+</html>
