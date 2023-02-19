@@ -28,3 +28,4 @@ const DOM_SIMILAR_MOVIES_CONTAINER = document.querySelector(".relatedMovies-cont
 
 
 
+
