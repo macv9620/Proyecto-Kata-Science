@@ -10,7 +10,7 @@ const api = axios.create({
   },
 });
 
-let moviesLikedList = undefined;
+let moviesLikedList = {};
 
 //Funciones de renderizacion recurrente
 //Renderiza un listado vertical de películas
@@ -18,6 +18,7 @@ function renderMoviesGenericList(movies, domElementInsert) {
   //Limpia el renderizado anterior
   domElementInsert.innerHTML = "";
   movies.forEach((movie) => {
+
     const movieContainer = document.createElement("div");
     movieContainer.setAttribute("class", "movie-container");
     const imgTag = document.createElement("img");
@@ -33,12 +34,16 @@ function renderMoviesGenericList(movies, domElementInsert) {
 
     const likeButton = document.createElement("button");
     likeButton.setAttribute("class", "like-button");
-    likeButton.innerHTML = `<span class="material-symbols-outlined">favorite</span>`;
     movieContainer.appendChild(likeButton);
-    likeButton.addEventListener("click", () => likeMovie(movie));
+    const spanButton = document.createElement("span");
+    const likeIcon = document.createTextNode("favorite");
+    spanButton.appendChild(likeIcon);
+    likeButton.appendChild(spanButton);
+    spanButton.setAttribute("class", "material-symbols-outlined");
 
+    likeButton.addEventListener("click", () => likeMovie(movie, likeButton));
 
-
+    renderLikedIcons(movie.id, likeButton);
     //-----------------------------------
 
     imgTag.addEventListener("click", () => {
@@ -65,7 +70,7 @@ function renderMoviesHorizontalContainer(movies, domElementInsert) {
     likeButton.setAttribute("class", "like-button");
     likeButton.innerHTML = `<span class="material-symbols-outlined">favorite</span>`;
     movieContainer.appendChild(likeButton);
-    likeButton.addEventListener("click", () => likeMovie(movie));
+    likeButton.addEventListener("click", () => likeMovie(movie, likeButton));
 
     domElementInsert.appendChild(movieContainer);
 
@@ -73,6 +78,9 @@ function renderMoviesHorizontalContainer(movies, domElementInsert) {
 
     //Se setea el scroll al lado izquierdo para evitar que la posición del render quede en la misma parte de del contenedor anterior
     domElementInsert.scrollLeft = 0;
+
+    renderLikedIcons(movie.id, likeButton);
+
     //Se crea evento click para enviar con el hash a la vista de detalle
     movieImg.addEventListener("click", () => {
       location.hash = `#movie=${movie.id}`;
@@ -120,7 +128,9 @@ async function renderMovieDetail(movie) {
   likeButtonMovieDetail.appendChild(likeIcon);
   DOM_MOVIE_DETAIL.appendChild(likeButtonMovieDetail);
 
-  likeButtonMovieDetail.addEventListener("click",()=> likeMovie(movie));
+  likeButtonMovieDetail.addEventListener("click", () =>
+    likeMovie(movie, likeButtonMovieDetail)
+  );
 
 
 
@@ -131,6 +141,8 @@ async function renderMovieDetail(movie) {
     similarMovies,
     DOM_SIMILAR_MOVIES_CONTAINER
   );
+  renderLikedIcons(movie.id, likeButtonMovieDetail);
+
 }
 
 // Consumo de APIs
@@ -205,35 +217,45 @@ async function getSimilarMovies(movieId) {
   return data.results;
 }
 
+async function likeMovie(movie, domElementToBechanged) {
+  if (moviesLikedList === {}) {
 
-async function likeMovie(movie) {
-if(moviesLikedList === undefined){
-  moviesLikedList = {};
-  moviesLikedList[movie.id] = new LikedMovie(movie);
-  console.log(moviesLikedList);
-} else if(moviesLikedList[movie.id]) {
-  console.log("La película ya tiene like");
-} else{
-  moviesLikedList[movie.id] = new LikedMovie(movie);
-  console.log(moviesLikedList);
+    moviesLikedList[movie.id] = new LikedMovie(movie);
+    domElementToBechanged.setAttribute("class", "like-button--clicked");
+    console.log(moviesLikedList);
+    console.log("Diste Like a " + movie.title);
+  } else if (moviesLikedList[movie.id]) {
+    delete moviesLikedList[movie.id];
+    domElementToBechanged.removeAttribute("class", "like-button--clicked");
+    domElementToBechanged.setAttribute("class", "like-button");
+    console.log(moviesLikedList);
+    console.log("Diste DisLike a " + movie.title);
+  } else {
+    moviesLikedList[movie.id] = new LikedMovie(movie);
+    console.log(moviesLikedList);
+    domElementToBechanged.setAttribute("class", "like-button--clicked");
+    console.log(moviesLikedList);
+    console.log("Diste Like a " + movie.title);
+  }
 }
-}
 
-//SE DEBE CONTINUAR IMPLEMENTANDO QUE SE PONGA DE COLOR ROJO EL CORAZON AL HABER DADO CLIC, SE PROPONE QUE A LA FUNCIÓN LIKEMOVIE SE LE ENVÍE UN SEGUNDO PARÁMETRO DESDE LA INTEFAZ QUE SE LLAME PARA INDENTIFICIAR MÁS FÁCIL A CUAL BOTÓN SE LE DEBE CAMBIAR EL COLOR Y EVITAR TENER QUE SELECCIONARLO DE NUEVO DESDE EL DOM
-
-//
 class LikedMovie {
-  constructor(movie){
+  constructor(movie) {
     this.movieName = movie.title;
     this.movieDetail = movie;
     this.like = true;
   }
-  manageLikedList(){
-    if(this.like){
+  manageLikedList() {
+    if (this.like) {
       this.like = false;
-    } else{
+    } else {
       this.like = true;
     }
   }
+}
 
+function renderLikedIcons (movieId, domElementToBechanged){
+if(moviesLikedList[movieId]){
+  domElementToBechanged.setAttribute("class", "like-button--clicked");
+}
 }

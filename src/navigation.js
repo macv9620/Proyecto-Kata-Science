@@ -69,6 +69,7 @@ function trendsPageView() {
 }
 
 function searchPageView() {
+  DOM_HEADER.style.backgroundImage = "";
   DOM_HEADER.classList.remove("inactive");
   DOM_HEADER.classList.remove("header-container--long");
   DOM_HEADER.classList.remove("header-container--categoryView");

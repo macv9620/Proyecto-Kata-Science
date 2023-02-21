@@ -199,6 +199,21 @@ footer {
   right: 10px;
 }
 
+.like-button--clicked{
+  background: rgb(240, 149, 149);
+  color: white;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  right: 25px;
+
+  z-index: 4;
+}
+
 
 
 
