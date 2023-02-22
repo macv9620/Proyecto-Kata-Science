@@ -12,6 +12,10 @@ const api = axios.create({
 
 let moviesLikedList = {};
 
+let DELETE;
+
+
+
 //Funciones de renderizacion recurrente
 //Renderiza un listado vertical de películas
 function renderMoviesGenericList(movies, domElementInsert) {
@@ -51,6 +55,8 @@ function renderMoviesGenericList(movies, domElementInsert) {
     });
   });
 }
+
+
 //Renderiza la previsualización de películas en una vista horizontal y con scroll horizontal
 function renderMoviesHorizontalContainer(movies, domElementInsert) {
   domElementInsert.innerHTML = "";
@@ -117,6 +123,8 @@ async function renderMovieDetail(movie) {
 
   //Actualización del listener de acuerdo con película
 
+  //SE PRESENTÓ UN ERROR A RAIZ DE RENDERIZAR O CREAR EN CADA ITERACIÓN EL MISMO BOTÓN, POR ESO ANTES DE CREAR EL BOTÓN SE CONTROLA QUE NO EXISTA YA UN BOTÓN, SI NO EXISTE SE CREA, Y SI EXISTE SE BORRA EL EVENTO ANTERIOR Y SE AGREGA EL ACTUAL.
+  if(!document.querySelector("#like-button")){
   const likeButtonMovieDetail = document.createElement("button");
   likeButtonMovieDetail.setAttribute("type", "button");
   likeButtonMovieDetail.setAttribute("class", "like-button");
@@ -127,13 +135,18 @@ async function renderMovieDetail(movie) {
   likeIcon.appendChild(likeIconText);
   likeButtonMovieDetail.appendChild(likeIcon);
   DOM_MOVIE_DETAIL.appendChild(likeButtonMovieDetail);
+  }
+  
+  //PARA NO ACUMULAR EVENTOS SOBRE UN MISMO BOTÓN SE IMPLEMENTA UNA VARIABLE GLOBAL QUE VA A PERMITIR ELIMINAR EL EVENTO AÑADIDO ANTERIORMENTE EN CADA ITERACIÓN
 
-  likeButtonMovieDetail.addEventListener("click", () =>
+  const likeButtonMovieDetail = document.querySelector("#like-button");
+  likeButtonMovieDetail.removeEventListener("click", DELETE);
+  
+  likeButtonMovieDetail.addEventListener("click", DELETE = function(){
     likeMovie(movie, likeButtonMovieDetail)
+  }
   );
-
-
-
+  
   renderCategoriesPreviewList(movie.genres, DOM_MOVIE_DETAIL_GENRES_LIST);
   const similarMovies = await getSimilarMovies(movie.id);
 
@@ -204,6 +217,17 @@ async function getTrendingMovieList() {
   renderMoviesGenericList(movies, DOM_GENERIC_LIST);
 }
 
+//Consulta la variable global para saber qué películas están en la vista de like para renderizarlas
+
+async function getLikedMoviesList(){
+  const movies = [];
+  for(const movieElement in moviesLikedList){
+    movies.push(moviesLikedList[movieElement].movieDetail);
+  }
+  DOM_HEADER_CATEGORY_TITLE.innerText = "Liked Movies List";
+  renderMoviesGenericList(movies, DOM_GENERIC_LIST);
+}
+
 //Consume API de consulta de 1 película y renderiza el detalle
 async function getMovieDetail(movieId) {
   const { data, status } = await api(`movie/${movieId}`);
@@ -232,7 +256,6 @@ async function likeMovie(movie, domElementToBechanged) {
     console.log("Diste DisLike a " + movie.title);
   } else {
     moviesLikedList[movie.id] = new LikedMovie(movie);
-    console.log(moviesLikedList);
     domElementToBechanged.setAttribute("class", "like-button--clicked");
     console.log(moviesLikedList);
     console.log("Diste Like a " + movie.title);
@@ -257,5 +280,11 @@ class LikedMovie {
 function renderLikedIcons (movieId, domElementToBechanged){
 if(moviesLikedList[movieId]){
   domElementToBechanged.setAttribute("class", "like-button--clicked");
+} else{
+  domElementToBechanged.removeAttribute("class", "like-button--clicked");
+  domElementToBechanged.setAttribute("class", "like-button");
 }
 }
+
+//REVISAR PUEDEN HABER 2 BOTONES Y UNO RENDERIZA SOBRE EL OTRO
+

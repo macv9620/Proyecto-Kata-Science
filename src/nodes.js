@@ -26,6 +26,8 @@ const DOM_MOVIE_OVERVIEW = document.querySelector("#movieDetail .movieDetail-des
 const DOM_MOVIE_DETAIL_GENRES_LIST = document.querySelector("#movieDetail .categories-list");
 const DOM_SIMILAR_MOVIES_CONTAINER = document.querySelector(".relatedMovies-container .relatedMovies-scrollContainer");
 
+const DOM_SEE_LIKED_MOVIES_BTN = document.querySelector("#seeLikedMovies");
+
 
 
 
