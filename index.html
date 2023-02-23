@@ -49,6 +49,16 @@
       </form>
     </header>
 
+    <!--Se crea lista desplegable de ordenamiento-->
+    <section class="sort" id="sort">
+      <label for="sortBy">Sort by:</label>
+      <select name="" id="sortListOptions" class="sort-list">
+        <option>Popularity</option>
+        <option>Release Date</option>
+        <option>Like Date</option>
+      </select>
+    </section>
+
     <!--Sección para previsualizar algunas películas tendencia-->
     <section id="trendingPreview" class="trendingPreview-container">
       <div class="trendingPreview-header">
@@ -128,18 +138,16 @@
 
     <!--Sección o vista para el detalle de la película-->
     <section id="movieDetail" class="movieDetail-container">
-
-              <!--Botón like
+      <!--Botón like
               <button type="button" class="like-button" id="like-button">
                 <span class="material-symbols-outlined">favorite</span>
               </button>-->
       <!--Título de la película-->
 
-        <h1 class="movieDetail-title">Deadpool</h1>
+      <h1 class="movieDetail-title">Deadpool</h1>
 
-                <!--Calificación-->
-                <span class="movieDetail-score">7.6</span>
-
+      <!--Calificación-->
+      <span class="movieDetail-score">7.6</span>
 
       <!--Descripción-->
       <p class="movieDetail-description">
@@ -164,7 +172,6 @@
 
         -->
       </article>
-
 
       <!--Películas relacionadas-->
       <article class="relatedMovies-container">
@@ -222,12 +229,13 @@
       </button>
     </div>
 
-    
     <div class="button-see-liked-movies">
-      <button id="seeLikedMovies" class="seeLikedMovies" type="button"> See liked Movies</button>
+      <button id="seeLikedMovies" class="seeLikedMovies" type="button">
+        See liked Movies
+      </button>
     </div>
 
-    <footer class="footer">Made by macv9620</footer>
+    <footer class="footer">Made by MateoVasco</footer>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="./src/api_key.js"></script>
     <script src="./src/main.js"></script>

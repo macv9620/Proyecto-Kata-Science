@@ -72,6 +72,7 @@ function trendsPageView() {
   DOM_HOME_BUTTON.classList.remove("inactive");
   DOM_GET_MORE_BTN.classList.remove("inactive");
   DOM_SEE_LIKED_MOVIES_BTN.classList.add("inactive");
+  DOM_SORT_SECTION.classList.add("inactive");
   getTrendingMovieList();
 }
 
@@ -96,6 +97,8 @@ function searchPageView() {
   DOM_HOME_BUTTON.classList.remove("inactive");
   DOM_GET_MORE_BTN.classList.remove("inactive");
   DOM_SEE_LIKED_MOVIES_BTN.classList.add("inactive");
+  DOM_SORT_SECTION.classList.add("inactive");
+
   console.log("Renderizar vista de resultados de búsqueda");
   const hash = location.hash;
   const movieName = hash.split("=").pop();
@@ -126,6 +129,8 @@ function movieDetailPageView() {
   DOM_HOME_BUTTON.classList.remove("inactive");
   DOM_GET_MORE_BTN.classList.add("inactive");
   DOM_SEE_LIKED_MOVIES_BTN.classList.add("inactive");
+  DOM_SORT_SECTION.classList.add("inactive");
+  
 
   //Parciar el hash
 
@@ -156,6 +161,7 @@ function categoryPageView() {
   DOM_HEADER.style.backgroundImage = "";
   DOM_GET_MORE_BTN.classList.remove("inactive");
   DOM_SEE_LIKED_MOVIES_BTN.classList.add("inactive");
+  DOM_SORT_SECTION.classList.add("inactive");
 
   console.log("Renderizar vista de películas por categoria");
 
@@ -193,6 +199,8 @@ function homePageView() {
   DOM_HOME_BUTTON.classList.add("inactive");
   DOM_GET_MORE_BTN.classList.add("inactive");
   DOM_SEE_LIKED_MOVIES_BTN.classList.remove("inactive");
+  DOM_SORT_SECTION.classList.add("inactive");
+
 
   console.log("Renderizar vista Home");
   getTrendingPreview();
@@ -219,8 +227,20 @@ function likedPageView(){
   DOM_MOVIE_DETAIL.classList.add("inactive");
   DOM_FOOTER.classList.remove("inactive");
   DOM_HOME_BUTTON.classList.remove("inactive");
-  DOM_GET_MORE_BTN.classList.remove("inactive");
+  DOM_GET_MORE_BTN.classList.add("inactive");
   DOM_SEE_LIKED_MOVIES_BTN.classList.add("inactive");
+  DOM_SORT_SECTION.classList.remove("inactive");
 
-  getLikedMoviesList();
+
+  DOM_SORT_BY_OPTIONS.forEach((option)=>{
+    option.removeEventListener("change", DELETE2);
+    console.log(option);
+    DELETE2 = function(){
+      getLikedMoviesList(option.value);
+    }
+    option.addEventListener("change", DELETE2);
+})
+
+  //Default render
+  getLikedMoviesList(DOM_SORT_BY_OPTIONS[0].value);
 }

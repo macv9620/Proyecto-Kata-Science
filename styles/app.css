@@ -514,7 +514,33 @@ color: white;
   display: flex;
   justify-content: center;
   align-items: center;
+
 }
+
+.sort{
+  display: flex;
+  justify-content: center ;
+  color:#2a0646;
+  font-weight:900;
+  font-size: 13px;
+  gap: 10px;
+}
+
+.sort-list{
+  background-color: var(--purple-dark-2);
+  color: white;
+  border: none;
+  font-size: 12px;
+  padding-left: 16px;
+  border-radius: 10px;
+}
+
+.sort-list option::selection{
+  font-weight: 600;
+  background-color: red;
+}
+
+
 
 /*Navigation*/
 .inactive {

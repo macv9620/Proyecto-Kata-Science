@@ -13,8 +13,7 @@ const api = axios.create({
 let moviesLikedList = {};
 
 let DELETE;
-
-
+let DELETE2;
 
 //Funciones de renderizacion recurrente
 //Renderiza un listado vertical de películas
@@ -22,7 +21,6 @@ function renderMoviesGenericList(movies, domElementInsert) {
   //Limpia el renderizado anterior
   domElementInsert.innerHTML = "";
   movies.forEach((movie) => {
-
     const movieContainer = document.createElement("div");
     movieContainer.setAttribute("class", "movie-container");
     const imgTag = document.createElement("img");
@@ -55,7 +53,6 @@ function renderMoviesGenericList(movies, domElementInsert) {
     });
   });
 }
-
 
 //Renderiza la previsualización de películas en una vista horizontal y con scroll horizontal
 function renderMoviesHorizontalContainer(movies, domElementInsert) {
@@ -124,29 +121,31 @@ async function renderMovieDetail(movie) {
   //Actualización del listener de acuerdo con película
 
   //SE PRESENTÓ UN ERROR A RAIZ DE RENDERIZAR O CREAR EN CADA ITERACIÓN EL MISMO BOTÓN, POR ESO ANTES DE CREAR EL BOTÓN SE CONTROLA QUE NO EXISTA YA UN BOTÓN, SI NO EXISTE SE CREA, Y SI EXISTE SE BORRA EL EVENTO ANTERIOR Y SE AGREGA EL ACTUAL.
-  if(!document.querySelector("#like-button")){
-  const likeButtonMovieDetail = document.createElement("button");
-  likeButtonMovieDetail.setAttribute("type", "button");
-  likeButtonMovieDetail.setAttribute("class", "like-button");
-  likeButtonMovieDetail.setAttribute("id", "like-button");
-  const likeIcon = document.createElement("span");
-  likeIcon.setAttribute("class", "material-symbols-outlined");
-  const likeIconText = document.createTextNode("favorite");
-  likeIcon.appendChild(likeIconText);
-  likeButtonMovieDetail.appendChild(likeIcon);
-  DOM_MOVIE_DETAIL.appendChild(likeButtonMovieDetail);
+  if (!document.querySelector("#like-button")) {
+    const likeButtonMovieDetail = document.createElement("button");
+    likeButtonMovieDetail.setAttribute("type", "button");
+    likeButtonMovieDetail.setAttribute("class", "like-button");
+    likeButtonMovieDetail.setAttribute("id", "like-button");
+    const likeIcon = document.createElement("span");
+    likeIcon.setAttribute("class", "material-symbols-outlined");
+    const likeIconText = document.createTextNode("favorite");
+    likeIcon.appendChild(likeIconText);
+    likeButtonMovieDetail.appendChild(likeIcon);
+    DOM_MOVIE_DETAIL.appendChild(likeButtonMovieDetail);
   }
-  
+
   //PARA NO ACUMULAR EVENTOS SOBRE UN MISMO BOTÓN SE IMPLEMENTA UNA VARIABLE GLOBAL QUE VA A PERMITIR ELIMINAR EL EVENTO AÑADIDO ANTERIORMENTE EN CADA ITERACIÓN
 
   const likeButtonMovieDetail = document.querySelector("#like-button");
   likeButtonMovieDetail.removeEventListener("click", DELETE);
-  
-  likeButtonMovieDetail.addEventListener("click", DELETE = function(){
-    likeMovie(movie, likeButtonMovieDetail)
-  }
+
+  likeButtonMovieDetail.addEventListener(
+    "click",
+    (DELETE = function () {
+      likeMovie(movie, likeButtonMovieDetail);
+    })
   );
-  
+
   renderCategoriesPreviewList(movie.genres, DOM_MOVIE_DETAIL_GENRES_LIST);
   const similarMovies = await getSimilarMovies(movie.id);
 
@@ -155,7 +154,6 @@ async function renderMovieDetail(movie) {
     DOM_SIMILAR_MOVIES_CONTAINER
   );
   renderLikedIcons(movie.id, likeButtonMovieDetail);
-
 }
 
 // Consumo de APIs
@@ -219,11 +217,36 @@ async function getTrendingMovieList() {
 
 //Consulta la variable global para saber qué películas están en la vista de like para renderizarlas
 
-async function getLikedMoviesList(){
+async function getLikedMoviesList(sortParam) {
   const movies = [];
-  for(const movieElement in moviesLikedList){
+  for (const movieElement in moviesLikedList) {
+    console.log(
+      Number(
+        moviesLikedList[movieElement].movieDetail.release_date
+          .replace("-", "")
+          .replace("-", "")
+      )
+    );
     movies.push(moviesLikedList[movieElement].movieDetail);
   }
+
+  if (sortParam === "Popularity") {
+    console.log("Ordenar por popularidad");
+    movies.sort((a, b) => b.popularity - a.popularity);
+  } else if (sortParam === "Release Date") {
+    console.log("Ordenar por Release Date");
+    movies.sort((a, b) => {
+      return (
+        Number(b.release_date.replace("-", "").replace("-", "")) -
+        Number(a.release_date.replace("-", "").replace("-", ""))
+      );
+    });
+  } else {
+    console.log("Ordenar por Like Date");
+    movies.sort((a, b) => b.getTime - a.getTime);
+  }
+
+  console.log(movies);
   DOM_HEADER_CATEGORY_TITLE.innerText = "Liked Movies List";
   renderMoviesGenericList(movies, DOM_GENERIC_LIST);
 }
@@ -243,7 +266,6 @@ async function getSimilarMovies(movieId) {
 
 async function likeMovie(movie, domElementToBechanged) {
   if (moviesLikedList === {}) {
-
     moviesLikedList[movie.id] = new LikedMovie(movie);
     domElementToBechanged.setAttribute("class", "like-button--clicked");
     console.log(moviesLikedList);
@@ -266,25 +288,18 @@ class LikedMovie {
   constructor(movie) {
     this.movieName = movie.title;
     this.movieDetail = movie;
-    this.like = true;
-  }
-  manageLikedList() {
-    if (this.like) {
-      this.like = false;
-    } else {
-      this.like = true;
-    }
+    this.movieDetail.likeDate = new Date();
+    this.movieDetail.getTime = this.movieDetail.likeDate.getTime();
   }
 }
 
-function renderLikedIcons (movieId, domElementToBechanged){
-if(moviesLikedList[movieId]){
-  domElementToBechanged.setAttribute("class", "like-button--clicked");
-} else{
-  domElementToBechanged.removeAttribute("class", "like-button--clicked");
-  domElementToBechanged.setAttribute("class", "like-button");
-}
+function renderLikedIcons(movieId, domElementToBechanged) {
+  if (moviesLikedList[movieId]) {
+    domElementToBechanged.setAttribute("class", "like-button--clicked");
+  } else {
+    domElementToBechanged.removeAttribute("class", "like-button--clicked");
+    domElementToBechanged.setAttribute("class", "like-button");
+  }
 }
 
 //REVISAR PUEDEN HABER 2 BOTONES Y UNO RENDERIZA SOBRE EL OTRO
-
